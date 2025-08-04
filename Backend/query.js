@@ -1,0 +1,127 @@
+// query.js
+
+// Load environment variables from .env file
+require("dotenv").config();
+
+const mongoose = require("mongoose");
+
+// Get MongoDB URI from environment variable
+const MONGO_URI = process.env.MONGO_URI;
+
+// Doctor data to insert
+const doctorsData = [
+  {
+    id: 1,
+    name: "Dr. Priya Sharma",
+    specialization: "Cardiologist",
+    availability: "Available Today",
+    experience: "12 years",
+    image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=200",
+  },
+  {
+    id: 2,
+    name: "Dr. Ravi Kumar",
+    specialization: "Neurologist",
+    availability: "Fully Booked",
+    experience: "15 years",
+    image: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?w=200",
+  },
+  {
+    id: 3,
+    name: "Dr. Meera Joshi",
+    specialization: "Dermatologist",
+    availability: "On Leave",
+    experience: "8 years",
+    image: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=200",
+  },
+  {
+    id: 4,
+    name: "Dr. Anil Verma",
+    specialization: "Orthopedic Surgeon",
+    availability: "Available Today",
+    experience: "18 years",
+    image: "https://images.unsplash.com/photo-1507120410856-1f35574c3b45?w=200",
+  },
+  {
+    id: 5,
+    name: "Dr. Neha Sinha",
+    specialization: "Pediatrician",
+    availability: "Available Today",
+    experience: "9 years",
+    image: "https://images.unsplash.com/photo-1588776814546-ec7e6b0386d4?w=200",
+  },
+  {
+    id: 6,
+    name: "Dr. Arjun Patel",
+    specialization: "Oncologist",
+    availability: "Fully Booked",
+    experience: "14 years",
+    image: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=200",
+  },
+  {
+    id: 7,
+    name: "Dr. Kavita Rao",
+    specialization: "Psychiatrist",
+    availability: "On Leave",
+    experience: "11 years",
+    image: "https://images.unsplash.com/photo-1511174511562-5f7f18b874f8?w=200",
+  },
+  {
+    id: 8,
+    name: "Dr. Vivek Nair",
+    specialization: "ENT Specialist",
+    availability: "Available Today",
+    experience: "10 years",
+    image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=200",
+  },
+  {
+    id: 9,
+    name: "Dr. Rina Das",
+    specialization: "Gynecologist",
+    availability: "Fully Booked",
+    experience: "13 years",
+    image: "https://images.unsplash.com/photo-1594824476967-48c8b964273c?w=200",
+  },
+  {
+    id: 10,
+    name: "Dr. Sameer Malhotra",
+    specialization: "Urologist",
+    availability: "Available Today",
+    experience: "16 years",
+    image: "https://images.unsplash.com/photo-1622553411447-6d834a7a3c4e?w=200",
+  },
+];
+
+// Mongoose schema
+const doctorSchema = new mongoose.Schema({
+  id: Number,
+  name: String,
+  specialization: String,
+  availability: String,
+  experience: String,
+  image: String,
+});
+
+// Create model
+const Doctor = mongoose.model("Doctor", doctorSchema);
+
+// Insert doctors
+async function insertDoctors() {
+  try {
+    await mongoose.connect(MONGO_URI);
+    console.log("✅ Connected to MongoDB");
+
+    await Doctor.deleteMany({});
+    console.log("🧹 Cleared existing doctors");
+
+    await Doctor.insertMany(doctorsData);
+    console.log("✅ Doctors inserted successfully");
+
+    await mongoose.disconnect();
+    console.log("🔌 Disconnected from MongoDB");
+  } catch (error) {
+    console.error("❌ Error inserting doctors:", error);
+  }
+}
+
+insertDoctors();
